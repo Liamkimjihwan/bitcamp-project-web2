@@ -11,6 +11,8 @@ public class Member implements Serializable {
   protected String email;
   protected String password;
   
+  
+  
   public int getMemberNo() {
     return memberNo;
   }

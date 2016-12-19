@@ -2,9 +2,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>학생관리-입력폼</title>
 </head>
 <body>
+<h1>학생 등록폼</h1>
+<form action='student/add' method="POST">
+<table border='1'>
+<tr><th>학생번호</th><td><input name="mno" type='number'></td></tr>
+><tr><th>이름</th><td><input name='name'type='text' placeholder='예)홍길동'></td></tr>
+<tr><th>이메일</th><td><input name='email'type='text' placeholder='예)hong@test.com'></td></tr>
+<tr><th>재직여부</th><td><input type='radio' name='working' value='y' >재직중<input type='radio' name='working' value='n' checked>실업/미취업</td></tr>
+<tr><th>학교이름</th><td><input name='shl_nm'type='text'></td></tr>
+</table>
+<button type='submit'>등록</button>
+ <a href='list'> 목록</a>
+</form>
 
 </body>
 </html>
