@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>할일 관리-입력폼</title>
+</head>
+<body>
+
+   <div id='header' style='background-color: gray; height: 40px;'>
+      <img src='../image/logo.jpeg' height="30"
+         style='float: left; margin-top: 6px; margin-left: 6px;'>
+      <div
+         style='color: white; font-weight: bold; margin-left: 60px; padding-top: 7px; font-family: 돋움체, sans-serif; font-size: x-large;'>교육센터관리시스템</div>
+   </div>
+
+   <h1>할일 등록폼</h1>
+   <form action='add' method='POST'>
+      <table border='1'>
+      <tr><th>회원번호</th><td><input name='memberNo' type='number'></td></tr>
+      <tr><th>프로젝트번호</th><td><input name='projectNo' type='number'></td></tr>
+         <tr>
+            <th>프로젝트</th>
+            <td><select name="title">
+                  <option value="프로젝트1">프로젝트1</option>
+                  <option value="프로젝트2">프로젝트2</option>
+                  <option value="프로젝트3">프로젝트3</option>
+                  <option value="프로젝트4">프로젝트4</option>
+                  <option value="프로젝트5">프로젝트5</option>
+            </select>
+         </tr>
+      <tr><th>이름</th><td><input name='name' type='text' placeholder='예)홍길동'></td></tr>
+<tr><th>이메일</th><td><input name='email' type='text' placeholder='예)hong@test.com'></td></tr>
+         <tr>
+            <th>순서</th>
+            <td colspan="5"><input name='sequence' type='number' value='1'></td>
+         </tr>
+         <tr>
+       <th>할일</th>
+  <td colspan="5"><textarea cols="90" rows="10" name="tdcontents" type='text'></textarea></td>
+</tr>
+         <tr>
+            <th>상태</th>
+            <td colspan="5"><select name="state">
+                  <option value="검토중">검토중</option>
+                  <option value="계획중">계획중</option>
+                  <option value="진행중">진행중</option>
+                  <option value="취소">취소</option>
+                  <option value="진행완료">진행완료</option>
+            </select>
+         <tr>
+            <th>상태 설정일</th>
+            <td colspan="5"><input name='stateDate' type='datetime' placeholder='예)2016-06-21'></td>
+         </tr>
+
+      </table>
+      <button type='submit'>등록</button>
+      <a href='list'>목록</a>
+   </form>
+
+   <div id='footer'
+      style='background-color: gray; height: 20px; margin-top: 20px;'>
+      <div
+         style='color: white; padding-top: 2px; font-family: 돋움체, sans-serif; text-align: center; font-weight: lighter;'>
+         @2016 비트캠프 자바89기</div>
+   </div>
+
+</body>
+</html>
+
+
+
+

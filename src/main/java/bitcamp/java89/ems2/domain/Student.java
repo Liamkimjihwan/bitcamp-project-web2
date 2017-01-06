@@ -9,20 +9,8 @@ public class Student extends Member {
   protected String postNo;
   protected String basicAddress;
   protected String detailAddress;
-  protected int studentNo;
+  protected String photoPath;
   
-  public Student() {}
-
-  public Student(String grade, String schoolName, String postNo, String basicAddress, String detailAddress) {
-    this.grade = grade;
-    this.schoolName = schoolName;
-    this.postNo = postNo;
-    this.basicAddress = basicAddress;
-    this.detailAddress = detailAddress;
-  }
-  
-
-
   public boolean isWorking() {
     return working;
   }
@@ -58,6 +46,12 @@ public class Student extends Member {
   }
   public void setDetailAddress(String detailAddress) {
     this.detailAddress = detailAddress;
+  }
+  public String getPhotoPath() {
+    return photoPath;
+  }
+  public void setPhotoPath(String photoPath) {
+    this.photoPath = photoPath;
   }
   
   

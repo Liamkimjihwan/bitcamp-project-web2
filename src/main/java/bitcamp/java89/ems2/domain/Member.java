@@ -5,13 +5,15 @@ import java.io.Serializable;
 public class Member implements Serializable {
   private static final long serialVersionUID = 1L;
   
+  public static final String STUDENT = "student";
+  public static final String TEACHER = "teacher";
+  public static final String MANAGER = "manager";
+  
   protected int memberNo;
   protected String name;
   protected String tel;
   protected String email;
   protected String password;
-  
-  
   
   public int getMemberNo() {
     return memberNo;

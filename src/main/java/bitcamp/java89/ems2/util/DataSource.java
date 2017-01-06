@@ -1,31 +1,20 @@
-package bitcamp.java89.ems2.dao;
+package bitcamp.java89.ems2.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Component;
+@Component // 직업 쓸일이 없기 때문에 이름표가 필요 없음.
 public class DataSource {
   ArrayList<Connection> conPool = new ArrayList<>();
 
-  // Singleton 패턴 - start
-  private DataSource() {
-    try {
-      Class.forName("com.mysql.jdbc.Driver");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
-  
-  static DataSource instance;
-  
-  public static DataSource getInstance() {
-    if (instance == null) {
-      instance = new DataSource();
-    }
-    return instance;
-  }
-  // end - Singleton 패턴
+  public DataSource() throws Exception {
 
+    Class.forName("com.mysql.jdbc.Driver");
+
+  }
+  
   public Connection getConnection() throws Exception {
     if (conPool.size() == 0) {
       return DriverManager.getConnection("jdbc:mysql://localhost:3306/java89db", 

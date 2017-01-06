@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>프로젝트관리-입력폼</title>
+</head>
+<body>
+
+	<div id='container' style='width: 800px'>
+		<form action='add' method='POST'>
+			<div style='height: 70px'></div>
+			<div id='title' style='height: 80px;'>
+				<!-- 프로젝트명 들어갈자리 -->
+
+				<input name='projectname' type='text' placeholder='프로젝트 이름'
+					style='margin: 10px; margin-left: 20px; padding: 2px; font-size: 36px; vertical-align: middle; border-radius: 5px;'>
+			</div>
+			<div id='predata' style='height: 110px;'>
+				<!-- 시작일 종료일 팀원선택버튼 -->
+				<div id='projectdate'
+					style='float: left; height: 100px; width: 600px;'>
+					<div id='startdate' style='margin: 10px; height: 30px;'>
+						<!-- 시작일 -->
+						<span
+							style='display: table-col; vertical-align: middle; font-size: 18px; font-weight: bold; margin: 10px;'>시작일</span>
+						<input name='projectStartDate' type='text'
+							placeholder='2016-12-01'
+							style='margin: 10px; padding: 2px; font-size: 18px; vertical-align: middle; border-radius: 5px;'>
+					</div>
+					<div id='enddate' style='margin: 10px; height: 40px;'>
+						<!-- 종료일 -->
+						<span
+							style='display: table-col; vertical-align: middle; font-size: 18px; font-weight: bold; margin: 10px;'>종료일</span>
+						<input name='projectEndDate' type='text' placeholder='2017-02-01'
+							style='margin: 10px; padding: 2px; font-size: 18px; vertical-align: middle; border-radius: 5px;'>
+					</div>
+				</div>
+				<div id='teamselect'
+					style='float: right; height: 100px; width: 200px'>
+					<button type=button
+						style='margin: 10px; height: 80px; width: 180px; border: 0px; background-color: #bebebe; font-size: 20px; font-weight: bold; color: white; border-radius: 5px;'>팀원선택</button>
+				</div>
+			</div>
+
+			<div id='content' style='height: 320px;'>
+				<!-- 내용 -->
+				<div style='margin: 10px; background-color: #e0e0e0; height: 300px;'>
+					<textarea rows="17" cols="102" name="textContents"
+						placeholder='프로젝트의 내용을 입력해 주세요'
+						style='margin: 20px; resize: none; border-radius: 5px;'></textarea>
+				</div>
+			</div>
+
+			<div id='postdata' style='height: 80px;'>
+				<!-- 태그입력 등록버튼 취소버튼 -->
+				<div id='projectdate'
+					style='float: left; margin: 10px; height: 60px; width: 480px;'>
+					<!-- 태그입력-->
+					<span
+						style='display: table-col; vertical-align: middle; font-size: 18px; font-weight: bold; margin: 10px;'>태그</span>
+					<input name='tagData' type='text' placeholder='#자바, #웹, #스프링'
+						style='margin: 10px; padding: 2px; font-size: 18px; vertical-align: middle; border-radius: 5px; width: 350px'>
+				</div>
+				<div id='projectdate'
+					style='float: right; margin: 10px; height: 60px; width: 280px;'>
+					<!-- 등록버튼 취소버튼 -->
+					<div style='float: left; margin: 10px; height: 40px; width: 120px;'>
+						<button type=button
+							style='height: 40px; width: 120px; border: 0px; background-color: #bebebe; font-size: 20px; font-weight: bold; color: white; border-radius: 5px;'>등록</button>
+					</div>
+					<div
+						style='float: right; margin: 10px; height: 40px; width: 120px;'>
+						<button type=button
+							style='height: 40px; width: 120px; border: 0px; background-color: #bebebe; font-size: 20px; font-weight: bold; color: white; border-radius: 5px;'>취소</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<hr>
+	</div>
+</body>
+</html>
+
