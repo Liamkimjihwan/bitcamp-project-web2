@@ -25,7 +25,7 @@
 </select>
 </td></tr>
 <tr><th>최종학교</th><td><input name='schoolName' type='text' value='${student.schoolName}'></td></tr>
-<tr><th>사진</th><td><img src='../upload/${student.photoPath}' height='80'><input name='photoPath' type='file'></td></tr></table>
+<tr><th>사진</th><td><img src='../upload/${student.photoPath}' height='80'><input name='photo' type='file'></td></tr></table>
 <button type='submit'>변경</button>
  <a href='delete.do?memberNo=${student.memberNo}'>삭제</a>
 <input type='hidden' name='memberNo' value='${student.memberNo}'>

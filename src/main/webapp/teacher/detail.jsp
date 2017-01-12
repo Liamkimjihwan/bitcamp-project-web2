@@ -5,16 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>     
 
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset='UTF-8'>
-<title>강사관리-상세정보</title>
-</head>
-<body>
-
-<jsp:include page="../header.jsp"></jsp:include>
-
 <h1>강사 정보</h1>
 <form action='update.do' method='POST' enctype='multipart/form-data'>
 <table border='1'>
@@ -25,9 +15,9 @@
 <tr><th>홈페이지</th><td><input name='homepage' type='text' value='${teacher.homepage}'></td></tr>
 <tr><th>페이스북</th><td><input name='facebook' type='text' value='${teacher.facebook}'></td></tr>
 <tr><th>트위터</th><td><input name='twitter' type='text' value='${teacher.twitter}'></td></tr>
-<tr><th>사진</th><td><img src='../upload/t21_1.gif' height='80'><input name='photoPath1' type='file'></td></tr>
-<tr><th>사진</th><td><img src='../upload/t21_2.gif' height='80'><input name='photoPath2' type='file'></td></tr>
-<tr><th>사진</th><td><img src='../upload/null' height='80'><input name='photoPath3' type='file'></td></tr>
+<tr><th>사진</th><td><img src='../upload/t21_1.gif' height='80'><input name='photo' type='file'></td></tr>
+<tr><th>사진</th><td><img src='../upload/t21_2.gif' height='80'><input name='photo' type='file'></td></tr>
+<tr><th>사진</th><td><img src='../upload/null' height='80'><input name='photo' type='file'></td></tr>
 </table>
 <button type='submit'>변경</button>
  <a href='delete.do?memberNo=${teacher.memberNo}'>삭제</a>
@@ -35,6 +25,3 @@
  <a href='list.do'>목록</a>
 </form>
 
-<jsp:include page="../footer.jsp"></jsp:include>
-</body>
-</html>

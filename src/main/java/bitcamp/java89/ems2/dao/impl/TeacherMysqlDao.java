@@ -7,41 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
-import bitcamp.java89.ems2.dao.TeacherDao;
 import bitcamp.java89.ems2.domain.Photo;
 import bitcamp.java89.ems2.domain.Teacher;
 import bitcamp.java89.ems2.util.DataSource;
-@Repository("teacherDao")
-public class TeacherMysqlDao implements TeacherDao {
+//@Repository("teacherDao")
+public class TeacherMysqlDao  {
   @Autowired DataSource ds; // Ioc 가 이런 타입의 객체를 찾아 데이터소스를 꼽아준다.
   
-  public boolean exist(int memberNo) throws Exception {
-    Connection con = ds.getConnection(); 
-    try (
-      PreparedStatement stmt = con.prepareStatement(
-          "select count(*)"
-          + " from tcher left outer join memb on tcher.tno=memb.mno"
-          + " where tno=?"); ) {
-      
-      stmt.setInt(1, memberNo);
-      ResultSet rs = stmt.executeQuery();
-      
-      rs.next();
-      int count = rs.getInt(1);
-      rs.close();
-      
-      if (count > 0) {
-        return true;
-      } else {
-        return false;
-      }
-      
-    } finally {
-      ds.returnConnection(con);
-    }
-  } 
 
   public ArrayList<Teacher> getList() throws Exception {
     ArrayList<Teacher> list = new ArrayList<>();

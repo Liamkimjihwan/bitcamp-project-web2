@@ -27,6 +27,7 @@
      </init-param>
    </filter>
    
+   <!--  필터를 어느 요청에 적용할 것인지 설정한다. -->
  <filter-mapping>
      <filter-name>CharacterEncodingFilter</filter-name>
      <url-pattern>/*</url-pattern>

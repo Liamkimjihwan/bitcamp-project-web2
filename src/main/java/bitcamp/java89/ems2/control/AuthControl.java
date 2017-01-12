@@ -1,5 +1,7 @@
 package bitcamp.java89.ems2.control;
 
+import java.util.HashMap;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +18,12 @@ import bitcamp.java89.ems2.domain.Member;
 
 @Controller
 public class AuthControl {
+  
   @Autowired MemberDao memberDao;
   @Autowired StudentDao studentDao;
   @Autowired ManagerDao managerDao;
   @Autowired TeacherDao teacherDao;
-
+  
   @RequestMapping("/auth/login.do")
   public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
     String email = request.getParameter("email");
@@ -40,7 +43,11 @@ public class AuthControl {
       response.addCookie(cookie);
     }
     
-    Member member = memberDao.getOne(email, password);
+    HashMap<String,String> paramMap = new HashMap<>();
+    paramMap.put("email", email);
+    paramMap.put("password", password);
+    
+    Member member = memberDao.getOneByEmailPassword(paramMap);
     
     if (member != null) {
       String userType = request.getParameter("userType");
@@ -53,38 +60,35 @@ public class AuthControl {
     }
     
     response.setHeader("Refresh", "2;url=loginform.do");
-    // FooterServlet에게 꼬리말 HTML 생성을 요청한다.
-    return "/auth/loginfail.jsp";    
-}
-
-private Member getMemberInfo(String userType, int memberNo) throws Exception {
-  
-  if (userType.equals(Member.STUDENT)) {
-    return studentDao.getOne(memberNo);
-    
-  } else if (userType.equals(Member.TEACHER)) {
-    return teacherDao.getOne(memberNo);
-    
-  } else /*if (userType.equals(Member.MANAGER))*/ {
-    return managerDao.getOne(memberNo);
+    request.setAttribute("title", "로그인");
+    request.setAttribute("contentPage", "/auth/loginfail.jsp");
+    return "main";
   }
   
+  private Member getMemberInfo(String userType, int memberNo) throws Exception {
+    if (userType.equals(Member.STUDENT)) {
+      return studentDao.getOne(memberNo);
+      
+    } else if (userType.equals(Member.TEACHER)) {
+      return teacherDao.getOneWithPhoto(memberNo);
+      
+    } else /*if (userType.equals(Member.MANAGER))*/ {
+      return managerDao.getOne(memberNo);
+    }
+  }
   
-}
-
-@RequestMapping("/auth/logout.do")
-public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
-  request.getSession().invalidate(); // 기존 세션을 무효화시킨다.
-  return "redirect:loginform.do";
-}
-
-@RequestMapping("/auth/loginform.do")
-public String loginform(HttpServletRequest request, HttpServletResponse response) throws Exception {
-  request.setAttribute("title", "로그인");
-  request.setAttribute("contentPage", "/auth/loginform.jsp");
-  return "/main.jsp";
-}
-
+  @RequestMapping("/auth/loginform.do")
+  public String loginform(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    request.setAttribute("title", "로그인");
+    request.setAttribute("contentPage", "/auth/loginform.jsp");
+    return "main";
+  }
+  
+  @RequestMapping("/auth/logout.do")
+  public String logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    request.getSession().invalidate(); // 기존 세션을 무효화시킨다.
+    return "redirect:loginform.do";
+  }
 }
 
 

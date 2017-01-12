@@ -11,9 +11,16 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-public class MultipartUtill {
+public class MultipartUtil {
+ static int count = 0;
+ 
+ public static String generateFilename() {
+   if (count > 100) {
+     count = 0;
+   }
+   return System.currentTimeMillis() +  "_" + count++;
+ }
    public static Map<String, String> parse(HttpServletRequest request) throws Exception {
-     int count = 0;
      HashMap<String, String> parse = new HashMap<>();
      
      if(!ServletFileUpload.isMultipartContent(request)) {
@@ -32,7 +39,7 @@ public class MultipartUtill {
          if (item.getSize() == 0) {
            continue; // 아래 실행하지말고 반복문으로 올라가라는 뜻. 사진이 없으면 실행 ㄴㄴ
          }
-         String filename = System.currentTimeMillis() +  "_" + count++;
+         String filename = generateFilename();
          item.write(new File(request.getServletContext().getRealPath("/upload/" + filename)));
          parse.put(item.getFieldName(), filename);
        }
