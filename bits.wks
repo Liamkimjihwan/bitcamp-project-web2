@@ -1,0 +1,13 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<workspace version="2.0" name="bits" desc="프로젝트" company="비트" creator="김지환">
+	<configurations>
+		<javascript>
+			<frameworks/>
+			<common>
+				<dir name="bitcamp-project-web2" path="..\bitcamp-project-web2"/>
+				<dir name="workspace" path="..\..\..\..\workspace"/>
+			</common>
+		</javascript>
+	</configurations>
+	<files/>
+</workspace>

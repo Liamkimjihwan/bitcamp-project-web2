@@ -1,10 +1,9 @@
 package bitcamp.java89.ems2.control;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,105 +11,75 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import bitcamp.java89.ems2.dao.ManagerDao;
-import bitcamp.java89.ems2.dao.MemberDao;
-import bitcamp.java89.ems2.dao.StudentDao;
-import bitcamp.java89.ems2.dao.TeacherDao;
-import bitcamp.java89.ems2.domain.Member;
 import bitcamp.java89.ems2.domain.Student;
+import bitcamp.java89.ems2.service.StudentService;
 import bitcamp.java89.ems2.util.MultipartUtil;
 
 @Controller
 public class StudentControl {
   @Autowired ServletContext sc;
   
-  @Autowired MemberDao memberDao;
-  @Autowired StudentDao studentDao; // 이 인터페이슬르 구현한 DAO 자동으로 찾아서 꼽아줌.
-  @Autowired TeacherDao teacherDao;
-  @Autowired ManagerDao managerDao;
+  @Autowired StudentService studentService;
+  
+  @RequestMapping("/student/form")
+  public String form(Model model) {
+    model.addAttribute("title", "학생 입력폼"); // main.jsp에 보내기전에 titl과 contentPage 정해서 보내준다.
+    model.addAttribute("contentPage", "student/form.jsp"); // main을 기준으로 상대 경로 지정.
+    return "main";
+  }
   
   @RequestMapping("/student/list")
   public String list(Model model) throws Exception {
-    ArrayList<Student> list = studentDao.getList(); // Dao로부터 받은 list
+    List<Student> list = studentService.getList(); // Dao로부터 받은 list
     model.addAttribute("students", list);
     model.addAttribute("title", "학생관리-목록"); // main.jsp에 보내기전에 titl과 contentPage 정해서 보내준다.
-    model.addAttribute("contentPage", "/student/list.jsp");
+    model.addAttribute("contentPage", "student/list.jsp");
     return "main";
     // 나머지는 공통적으로 DispatcherServlet이 함.
   }
   @RequestMapping("/student/detail")
   public String detail(int memberNo, Model model) throws Exception {
-    Student student = studentDao.getOne(memberNo);   
+    Student student = studentService.getDetail(memberNo);   
     if (student == null) {
       throw new Exception("해당 학생이 없습니다.");
     }
 
-    model.addAttribute("student", student);
+       // 페이지 컨트롤러는 모델 객체가 리턴한 값을 JSP가 출력할 수 있도록 가공하는 일을 아래와 같이 한다.
+    model.addAttribute("student", student); // JSP가 사용할 데이터를 가공한다. = page Controller의 역할
     model.addAttribute("title", "학생관리-상세정보");
-    model.addAttribute("contentPage", "/student/detail.jsp");
+    model.addAttribute("contentPage", "student/detail.jsp");
     return "main";
 
   }
-
+ 
   @RequestMapping("/student/add")
   public String add(Student student, MultipartFile photo) throws Exception {
 
-    if ((studentDao.count(student.getEmail()) > 0)) {
-      throw new Exception("같은 학생의 이메일이 존재합니다. 등록을 취소합니다.");
-    }
-
-    
-    
-    if (memberDao.count(student.getEmail()) == 0) { // 강사나 매니저로 등록되지 않았다면,
-      memberDao.insert(student);
-
-    } else { 
-      Member member = memberDao.getOne(student.getEmail());
-      student.setMemberNo(member.getMemberNo());
-    }
-
-    if (photo.getSize() > 0 ) { // 0보다 크다는건 파일이 업로드 되었다는 뜻.
+    // 페이지 컨트롤러는 입력 파라미터 값을 가공하여 모델 객체에게 전달하는 역할을 한다.
+    // 또한 모델 객체가 리턴한 값을 
+    if (photo.getSize() > 0 ) { 
       String newFilename = MultipartUtil.generateFilename();
-      photo.transferTo(new File(sc.getRealPath("/upload/" + newFilename))); // 
-      student.setPhotoPath(newFilename); 
+      photo.transferTo(new File(sc.getRealPath("/upload/" + newFilename))); // 파일을 저장하고. 
+      student.setPhotoPath(newFilename); // 파일명은 student에 박아논다.
     }
     
-    studentDao.insert(student);
-
+    studentService.add(student);
     return "redirect:list.do";
-
   }
   
   @RequestMapping("/student/delete")
   public String delete(int memberNo) throws Exception {
-    if (studentDao.countByNo(memberNo) == 0) {
-      throw new Exception("학생을 찾지 못했습니다.");
-    }
-    
-    studentDao.delete(memberNo);
-
-    if (managerDao.countByNo(memberNo) == 0 && teacherDao.countByNo(memberNo) ==0) {
-      memberDao.delete(memberNo);
-    }
+     studentService.delete(memberNo);
     return "redirect:list.do";
   }
-  
   @RequestMapping("/student/update")
   public String update(Student student, MultipartFile photo) throws Exception {
-    // 알아서 Student 생성해서 꼽아준다.
-    
-    if (studentDao.countByNo(student.getMemberNo()) == 0) {
-      throw new Exception("학생을 찾지 못했습니다.");
-    }
-    
-    memberDao.update(student);
-    
     if (photo.getSize() > 0 ) { // 0보다 크다는건 파일이 업로드 되었다는 뜻.
       String newFilename = MultipartUtil.generateFilename();
       photo.transferTo(new File(sc.getRealPath("/upload/" + newFilename))); // 
       student.setPhotoPath(newFilename); 
     }
-    studentDao.update(student);
+    studentService.update(student);
     
     return "redirect:list.do";
   }

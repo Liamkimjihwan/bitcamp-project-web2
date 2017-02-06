@@ -54,6 +54,17 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/conf/dispatcher-servlet.xml</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup> <!-- 클라이언트가 요구하기 전에 존재해야 실행이 느리지 않다. -->
+    </servlet>
+    
+     <servlet>
+        <servlet-name>json</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/conf/json-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup> <!-- 클라이언트가 요구하기 전에 존재해야 실행이 느리지 않다. -->
     </servlet>
 
     <!-- map all requests for /app/* to the dispatcher servlet -->
@@ -61,6 +72,23 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+    
+        <servlet-mapping>
+        <servlet-name>json</servlet-name>
+        <url-pattern>*.json</url-pattern>
+    </servlet-mapping>
+    
+    
+    <!-- URL에서 구체적으로 자원을 명시하지 않았을 때 기본으로 찾는 자원
+         적히는 순서대로 파일을 찾는다. main을 먼저 찾는다. -->
+    <welcome-file-list>
+    <welcome-file>main.html</welcome-file>
+      <welcome-file>index.html</welcome-file>
+      <welcome-file>index.htm</welcome-file>
+      <welcome-file>index.jsp</welcome-file>
+      <welcome-file>default.html</welcome-file>
+      <welcome-file>default.htm</welcome-file>
+    </welcome-file-list>
 </web-app>
 
 

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>학생관리-조회</title>
+<style type="text/css">
+body {
+	font-family: '맑은 고딕', sans-serif;
+}
+
+#sidebar {
+	color: white;
+	padding: 10px 5px;
+	float: left;
+	margin: 5px 5px 5px 0px;
+}
+
+#sidebar a {
+	color: white;
+	text-decoration: none;
+}
+
+#content {
+	margin-left: 200px;
+}
+
+#footer {
+	clear: left;
+}
+</style>
+
+</head>
+<body>
+
+	<div id='header'
+		style='background-color: gray; height: 40px; position: relative;'></div>
+
+	<div id='sidebar'
+		style='background-color: Navy; width: 180px; height: 400px;'></div>
+
+	<div id="content">
+		<h1>학생 정보</h1>
+		<form action='update.do' method='POST' enctype='multipart/form-data'>
+			<table border='1'>
+				<tr>
+					<th>이메일</th>
+					<td><input id='email' type='text'></td>
+				</tr>
+				<tr>
+					<th>암호</th>
+					<td><input id='password' type='password'></td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input id='name' type='text'></td>
+				</tr>
+				<tr>
+					<th>전화</th>
+					<td><input id='tel' type='text'></td>
+				</tr>
+				<tr>
+					<th>재직여부</th>
+					<td><input type='radio' id='working' name='working' value='true'>재직중
+						<input type='radio' id='not-working' name='working' value='false'>실업/미취업</td>
+				</tr>
+				<tr>
+					<th>최종학력</th>
+					<td><select id='grade'>
+							<option value='고졸'>고졸</option>
+							<option value='전문학사'>전문학사</option>
+							<option value='학사'>학사</option>
+							<option value='석사'>석사</option>
+							<option value='박사'>박사</option>
+					</select></td>
+				</tr>
+				<tr>
+					<th>최종학교</th>
+					<td><input id='school-name' type='text'></td>
+				</tr>
+				<tr>
+					<th>사진</th>
+					<td><img id = 'photo-img' height='80' class='view-form'> 
+					<input id='photo' type='file'></td>
+				</tr>
+			</table>
+			<button id='add-btn' type='button' class='new-form'>등록</button>
+			<button id='update-btn' type='button' class='view-form'>변경</button>
+			<button id='delete-btn' type='button' class='view-form'>삭제</button> 
+			<button id='list-btn' type='button'>목록</button>
+		</form>
+	</div>
+
+	<div id='footer'
+		style='background-color: gray; height: 20px; margin-top: 20px;'></div>
+
+<script src='../js/bit.js'></script>
+<script src='../js/common.js'></script>
+
+	<script>
+	try {
+	var memberNo = location.href.split('?')[1].split('=')[1];
+	} catch (error) {
+		var memberNo = -1;
+	}
+	
+if (memberNo > 0) {
+	prepareViewForm();
+} else {
+	prepareNewForm();
+}
+
+function prepareViewForm() {
+	
+	// 등록 버튼은 감춘다.
+   var tags = document.querySelectorAll('.new-form'); // class 를 가리킬 떄는 .  으로
+   for (var i = 0; i < tags.length; i++) {
+	   tags[i].style.display = 'none';
+   }
+	// 학생 목록을 가져와서 tr 태그를 만들어 붙인다.
+	get('detail.json?memberNo=' + memberNo,function(jsonText) {
+			//'detail.json?memberNo=' + memberNo 서버에 이렇게 요청하고 응답이 온다면 이 함수를 호출한다.
+			var ajaxResult = JSON.parse(jsonText); // JSON.parse(result) 는 서버에서 리턴하는 데이터. jsonText를 파싱하는 것.
+			var status = ajaxResult.status;
+
+			if (status != "success") {
+				alert(ajaxResult.data);
+				return;
+			}
+
+			// 만약 success 라면
+			var student = ajaxResult.data;
+			console.log(student);
+
+			document.querySelector('#email').value = student.email;
+			document.querySelector('#name').value = student.name;
+			document.querySelector('#tel').value = student.tel;
+			if (student.working) {
+				document.querySelector('#working').checked = 'checked';
+			} else {
+				document.querySelector('#not-working').checked = 'checked';
+			}
+			document.querySelector('#grade').value = student.grade;
+			document.querySelector('#school-name').value = student.schoolName;
+			document.querySelector('#photo-img').src = "../upload/"
+					+ student.photoPath;
+			});
+	
+	// 삭제 변경 버튼을 클릭 했을 때 호출되는 함수(클릭 이벤트 핸들러)를 등록
+	 document.querySelector('#delete-btn').onclick = function() {
+		get('delete.json?memberNo=' + memberNo, function(jsonText) {
+			var ajaxResult = JSON.parse(jsonText);
+			if (ajaxResult.status != "success") { // "success" 문자열로
+				alert(ajaxResult.data);
+				return;
+			}
+			location.href = 'main.html'; // 정상적이라면 메인으로 보냄.
+		});
+	}
+	
+	 document.querySelector('#update-btn').onclick = function() {
+   var param = { // 파라미터 명은 프라퍼티명과 일치해야 함.
+	     "memberNo": memberNo, // "memberNo" 프라퍼티	    
+		   "name": document.querySelector('#name').value,
+		   "tel": document.querySelector('#tel').value,
+		   "email": document.querySelector('#email').value,
+		   "password": document.querySelector('#password').value,
+		   "working": document.querySelector('#working').checked,
+		   "grade": document.querySelector('#grade').value,
+		   "schoolName":document.querySelector('#school-name').value
+   };
+   
+   post('update.json', param, function(jsonText) {
+	   var ajaxResult = JSON.parse(jsonText);
+	   if (ajaxResult.status != "success") {
+		   alert(ajaxResult.data);
+		   return;
+	   }
+	   location.href = 'main.html';
+   });
+	 }
+	
+} // prepareViewForm 
+
+function prepareNewForm() {
+	 // 변경 삭제 버튼은 감춘다.
+	   var tags = document.querySelectorAll('.view-form'); // class 를 가리킬 떄는 . 으로
+	   for (var i = 0; i < tags.length; i++) {
+	     tags[i].style.display = 'none';
+	   }
+}
+// 목록 버튼을 클릭했을 때 호출될 함수(이벤트 핸들러) 등록
+document.querySelector('#list-btn').onclick = function() {
+	location.href = 'main.html';
+};
+	</script>
+
+</body>
+</html>

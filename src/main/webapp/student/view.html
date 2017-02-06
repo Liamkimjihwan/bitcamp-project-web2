@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>학생관리-조회</title>
+<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div class='container'>
+
+<div id='header'></div>
+
+<div id='sidebar'></div>
+
+<div id="content">
+<h1>학생 정보</h1>
+<form action='update.do' method='POST' enctype='multipart/form-data'>
+<table class = 'table'>>
+<tr><th>이메일</th><td><input id='email' type='text'></td></tr>
+<tr><th>암호</th><td><input id='password' type='password'></td></tr>
+<tr><th>이름</th><td><input id='name' type='text'></td></tr>
+<tr><th>전화</th><td><input id='tel' type='text'></td></tr>
+<tr><th>재직여부</th><td>
+  <input type='radio' id='working' name='working' value='true'>재직중 
+  <input type='radio' id='not-working' name='working' value='false' checked>실업/미취업</td></tr>
+<tr><th>최종학력</th><td>
+  <select id='grade'>
+    <option value='고졸' >고졸</option>
+    <option value='전문학사' >전문학사</option>
+    <option value='학사'>학사</option>
+    <option value='석사' >석사</option>
+    <option value='박사' >박사</option>
+  </select></td></tr>
+<tr><th>최종학교</th><td><input id='school-name' type='text'></td></tr>
+<tr><th>사진</th><td><img id='photo-img' height='80' class='view-form'>
+    <input id='photo' type='file'></td></tr>
+</table>
+<button id='add-btn' type='button' class='new-form'>등록</button>
+<button id='update-btn' type='button' class='view-form'>변경</button>
+<button id='delete-btn' type='button' class='view-form'>삭제</button>
+<button id='list-btn' type='button'>목록</button>
+</form>
+</div>
+
+<div id='footer'></div>
+</div>
+
+<script src="../node_modules/jquery/dist/jquery.js"></script>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="../js/bit.js"></script>
+<script src="../js/common.js"></script>
+<script src="view.js"></script>
+
+</body>
+</html>
+
